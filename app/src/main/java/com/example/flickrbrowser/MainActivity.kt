@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
 
         //Instance to get the FLICKR Json
         val getRawData = GetRawData()
+        getRawData.setDownloadCompleteListener(this)
         getRawData.getJSON("https://www.flickr.com/services/feeds/photos_public.gne?tags=android,oreo&format=json&nojsoncallback=1&lang=es-us")
 
     }
@@ -42,6 +43,7 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    /*Function that returns the result from the Coroutines JSON in GetRawData*/
     fun onDownloadComplete(data: String, status: DownloadStatus){
         if(status == DownloadStatus.OK){
             Log.d(TAG, "onDownloadComplete called, data is $data")

@@ -17,6 +17,11 @@ enum class DownloadStatus{
 class GetRawData {
     val scope = CoroutineScope(Dispatchers.IO)
     var downloadStatus = DownloadStatus.OK
+    private var listener: MainActivity? = null
+
+    fun setDownloadCompleteListener(callbackObject: MainActivity){
+        listener = callbackObject
+    }
 
     fun getJSON(name: String){
         Log.d(TAG, "GetJson called")
@@ -28,7 +33,8 @@ class GetRawData {
 
 
                 withContext(Dispatchers.Main){
-                    Log.d(TAG, "[getJson()] : $json")
+                    Log.d(TAG, "[getJson()]")
+                    listener?.onDownloadComplete(json, downloadStatus)
                 }
 
             }catch (e: Exception){
