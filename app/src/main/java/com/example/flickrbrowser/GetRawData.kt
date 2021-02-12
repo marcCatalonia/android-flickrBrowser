@@ -14,14 +14,14 @@ enum class DownloadStatus{
     OK, NOT_INITIALIZED, FAILED_OR_EMPTY, PERMISSIONS_ERROR, ERROR
 }
 
-class GetRawData {
+class GetRawData(private var listener: MainActivity) {
     val scope = CoroutineScope(Dispatchers.IO)
     var downloadStatus = DownloadStatus.OK
-    private var listener: MainActivity? = null
-
-    fun setDownloadCompleteListener(callbackObject: MainActivity){
-        listener = callbackObject
-    }
+//    private var listener: MainActivity? = null
+//
+//    fun setDownloadCompleteListener(callbackObject: MainActivity){
+//        listener = callbackObject
+//    }
 
     fun getJSON(name: String){
         Log.d(TAG, "GetJson called")
@@ -34,7 +34,7 @@ class GetRawData {
 
                 withContext(Dispatchers.Main){
                     Log.d(TAG, "[getJson()]")
-                    listener?.onDownloadComplete(json, downloadStatus)
+                    listener.onDownloadComplete(json, downloadStatus)
                 }
 
             }catch (e: Exception){

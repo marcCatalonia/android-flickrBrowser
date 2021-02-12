@@ -1,4 +1,4 @@
-package com.example.flickrbrowser
+ package com.example.flickrbrowser
 
 import android.os.Bundle
 import android.util.Log
@@ -19,8 +19,9 @@ class MainActivity : AppCompatActivity() {
         setSupportActionBar(findViewById(R.id.toolbar))
 
         //Instance to get the FLICKR Json
-        val getRawData = GetRawData()
-        getRawData.setDownloadCompleteListener(this)
+        val getRawData = GetRawData(this)
+
+//        getRawData.setDownloadCompleteListener(this)
         getRawData.getJSON("https://www.flickr.com/services/feeds/photos_public.gne?tags=android,oreo&format=json&nojsoncallback=1&lang=es-us")
 
     }
