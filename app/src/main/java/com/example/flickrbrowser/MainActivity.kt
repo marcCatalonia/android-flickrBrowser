@@ -7,9 +7,10 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import java.lang.Exception
 
-private const val TAG = "MainActivity"
-class MainActivity : AppCompatActivity() {
+ private const val TAG = "MainActivity"
+class MainActivity : AppCompatActivity(), GetFlickJsonData.OnDataAvailable {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -48,9 +49,22 @@ class MainActivity : AppCompatActivity() {
     fun onDownloadComplete(data: String, status: DownloadStatus){
         if(status == DownloadStatus.OK){
             Log.d(TAG, "onDownloadComplete called, data is $data")
+
+            val getFlickJsonData = GetFlickJsonData(this)
+            getFlickJsonData.getJsonData(data)
         }
         else{
             Log.d(TAG, "onDownloadComplete failed with status $status. Error message is $data")
         }
+    }
+
+    override fun onDataAvailable(data: List<Photo>) {
+
+        Log.d(TAG, "onDataAvailable called")
+        Log.d(TAG, "onDataAvailable ends")
+    }
+
+    override fun onError(exception: Exception) {
+        Log.d(TAG, "onError called with exception: ${exception.message}")
     }
 }
