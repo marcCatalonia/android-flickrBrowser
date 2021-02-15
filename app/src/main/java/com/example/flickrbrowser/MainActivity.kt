@@ -1,5 +1,6 @@
  package com.example.flickrbrowser
 
+import android.net.Uri
 import android.os.Bundle
 import android.util.Log
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -19,11 +20,31 @@ class MainActivity : AppCompatActivity(), GetFlickJsonData.OnDataAvailable {
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
 
+        val url = createUri("https://www.flickr.com/services/feeds/photos_public.gne", "android,oreo", "en-us", true)
+
         //Instance to get the FLICKR Json
         val getRawData = GetRawData(this)
 
 //        getRawData.setDownloadCompleteListener(this)
-        getRawData.getJSON("https://www.flickr.com/services/feeds/photos_public.gne?tags=android,oreo&format=json&nojsoncallback=1&lang=es-us")
+        getRawData.getJSON(url)
+
+    }
+
+
+    private fun createUri (baseURL: String, searchCriteria: String, lang: String, matchAll: Boolean): String{
+        Log.d(TAG, "createUri starts")
+
+        var uri = Uri.parse(baseURL)
+        var builder = uri.buildUpon()
+        builder = builder.appendQueryParameter("tags", searchCriteria)
+        builder = builder.appendQueryParameter("tagmode", if(matchAll)"ALL" else "ANY")
+        builder = builder.appendQueryParameter("lang", lang)
+        builder = builder.appendQueryParameter("format", "json")
+        builder = builder.appendQueryParameter("nojsoncallback", "1")
+        uri = builder.build()
+
+        return uri.toString()
+
 
     }
 
