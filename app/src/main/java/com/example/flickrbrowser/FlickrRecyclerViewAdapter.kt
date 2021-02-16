@@ -28,6 +28,7 @@ class FlickrRecyclerViewAdapter (private var photoList: List<Photo>): RecyclerVi
     //Recycler will provide the recycled holder object
     override fun onBindViewHolder(holder: FlickrImageViewHolder, position: Int) {
         //Called by the layout manager when it wants new data in existing view
+        Log.d(TAG, "onBindViewHolder: called")
         val photoItem = photoList[position]
         Log.d(TAG, "onBindViewHolder: ${photoItem.title} -->$position")
 
@@ -43,8 +44,11 @@ class FlickrRecyclerViewAdapter (private var photoList: List<Photo>): RecyclerVi
     }
 
     fun loadNewData(newPhotos: List<Photo>){
+        Log.d(TAG, "loadNewData called")
         photoList = newPhotos
         notifyDataSetChanged()
+        Log.d(TAG, "loadNewData $photoList")
+
     }
 
     fun getPhoto(position: Int): Photo?{

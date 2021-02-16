@@ -8,17 +8,30 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.LinearLayout
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.flickrbrowser.databinding.ActivityMainBinding
+import com.example.flickrbrowser.databinding.ContentMainBinding
 import java.lang.Exception
 
  private const val TAG = "MainActivity"
 class MainActivity : AppCompatActivity(), GetFlickJsonData.OnDataAvailable {
+    private val flickrRecyclerViewAdapter = FlickrRecyclerViewAdapter(ArrayList<Photo>())
 
+    //Classes to bind ids -> inspite of findViewById
+    private lateinit var bindingContentMainLayout: ContentMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         setSupportActionBar(findViewById(R.id.toolbar))
+
+        bindingContentMainLayout = ContentMainBinding.inflate(layoutInflater)
+
+        bindingContentMainLayout.recyclerView.layoutManager = LinearLayoutManager(this)
+        bindingContentMainLayout.recyclerView.adapter = flickrRecyclerViewAdapter
+        setContentView(bindingContentMainLayout.root)
 
         val url = createUri("https://www.flickr.com/services/feeds/photos_public.gne", "android,oreo", "en-us", true)
 
@@ -82,6 +95,8 @@ class MainActivity : AppCompatActivity(), GetFlickJsonData.OnDataAvailable {
     override fun onDataAvailable(data: List<Photo>) {
 
         Log.d(TAG, "onDataAvailable called")
+        flickrRecyclerViewAdapter.loadNewData(data)
+        Log.d(TAG, "onDataAvailable $data")
         Log.d(TAG, "onDataAvailable ends")
     }
 
