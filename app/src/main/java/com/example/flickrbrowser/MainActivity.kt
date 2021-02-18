@@ -1,5 +1,6 @@
  package com.example.flickrbrowser
 
+import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -8,14 +9,16 @@ import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
 import android.widget.LinearLayout
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flickrbrowser.databinding.ActivityMainBinding
 import com.example.flickrbrowser.databinding.ContentMainBinding
 import java.lang.Exception
 
  private const val TAG = "MainActivity"
-class MainActivity : AppCompatActivity(), GetFlickJsonData.OnDataAvailable {
+class MainActivity : BaseActivity(), GetFlickJsonData.OnDataAvailable, RecyclerItemClickListener.OnRecyclerClickListener {
     private val flickrRecyclerViewAdapter = FlickrRecyclerViewAdapter(ArrayList<Photo>())
 
     //Classes to bind ids -> inspite of findViewById
@@ -25,11 +28,12 @@ class MainActivity : AppCompatActivity(), GetFlickJsonData.OnDataAvailable {
         Log.d(TAG, "onCreate called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        setSupportActionBar(findViewById(R.id.toolbar))
+        activateToolbar(false)
 
         bindingContentMainLayout = ContentMainBinding.inflate(layoutInflater)
 
         bindingContentMainLayout.recyclerView.layoutManager = LinearLayoutManager(this)
+        bindingContentMainLayout.recyclerView.addOnItemTouchListener(RecyclerItemClickListener(this, bindingContentMainLayout.recyclerView, this))
         bindingContentMainLayout.recyclerView.adapter = flickrRecyclerViewAdapter
         setContentView(bindingContentMainLayout.root)
 
@@ -43,6 +47,21 @@ class MainActivity : AppCompatActivity(), GetFlickJsonData.OnDataAvailable {
 
     }
 
+    override fun onItemClick(view: View, position: Int) {
+        Log.d(TAG, "onItemClick: started")
+        Toast.makeText(this, "Normal tap at position $position", Toast.LENGTH_SHORT).show()
+    }
+
+    override fun onItemLongClick(view: View, position: Int) {
+        Log.d(TAG, "onItemLongClick: starts")
+        //Toast.makeText(this, "Long tap at position $position", Toast.LENGTH_SHORT).show()
+        val photo = flickrRecyclerViewAdapter.getPhoto(position)
+        if(photo != null){
+            val intent = Intent(this, PhotoDetailsActivity::class.java)
+            intent.putExtra(PHOTO_TRANSFER, photo)
+            startActivity(intent)
+        }
+    }
 
     private fun createUri (baseURL: String, searchCriteria: String, lang: String, matchAll: Boolean): String{
         Log.d(TAG, "createUri starts")
