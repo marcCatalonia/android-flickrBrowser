@@ -16,11 +16,10 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.FlickrBrowser.PopupOverlay" />
+            app:popupTheme="@style/Theme.FlickrBrowser.PopupOverlay"
+            app:title="Photo list view" />
 
     </com.google.android.material.appbar.AppBarLayout>
-
-    <include layout="@layout/content_photo_details" />
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/fab"
@@ -29,5 +28,9 @@
         android:layout_gravity="bottom|end"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/ic_dialog_email" />
+
+    <include
+        android:id="@+id/includedContentPhotoDetails"
+        layout="@layout/content_photo_details" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

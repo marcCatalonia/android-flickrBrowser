@@ -11,11 +11,12 @@ internal const val  PHOTO_TRANSFER = "PHOTO_TRANSFER"
 open class BaseActivity : AppCompatActivity( ) {
     private val TAG = "BaseActivity"
 
-    internal fun activateToolbar(enableHome: Boolean){
+
+    internal fun activateToolbar(enableHome: Boolean, toolbar: Toolbar){
         Log.d(TAG, "activateToolbar")
 
-        var toolbar = findViewById<View>(R.id.toolbar) as Toolbar
         setSupportActionBar(toolbar)
         supportActionBar?.setDisplayHomeAsUpEnabled(enableHome)
+        Log.d(TAG, "supportActionBar is null? ${supportActionBar?.title}")
     }
 }

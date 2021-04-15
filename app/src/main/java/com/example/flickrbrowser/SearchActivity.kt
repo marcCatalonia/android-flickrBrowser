@@ -12,7 +12,7 @@ class SearchActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
         setSupportActionBar(findViewById(R.id.toolbar))
-        activateToolbar(true)
+        //activateToolbar(true)
         Log.d(TAG, "onCreate ends")
     }
 }

@@ -22,21 +22,21 @@ class MainActivity : BaseActivity(), GetFlickJsonData.OnDataAvailable, RecyclerI
     private val flickrRecyclerViewAdapter = FlickrRecyclerViewAdapter(ArrayList<Photo>())
 
     //Classes to bind ids -> inspite of findViewById
-    private lateinit var bindingContentMainLayout: ContentMainBinding
+    private lateinit var bindingActivityMainLayout: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate called")
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        activateToolbar(false)
 
-        bindingContentMainLayout = ContentMainBinding.inflate(layoutInflater)
 
-        bindingContentMainLayout.recyclerView.layoutManager = LinearLayoutManager(this)
-        bindingContentMainLayout.recyclerView.addOnItemTouchListener(RecyclerItemClickListener(this, bindingContentMainLayout.recyclerView, this))
-        bindingContentMainLayout.recyclerView.adapter = flickrRecyclerViewAdapter
-        setContentView(bindingContentMainLayout.root)
+        bindingActivityMainLayout = ActivityMainBinding.inflate(layoutInflater)
 
+        bindingActivityMainLayout.includedContentMainListView.recyclerView.layoutManager = LinearLayoutManager(this)
+        bindingActivityMainLayout.includedContentMainListView.recyclerView.addOnItemTouchListener(RecyclerItemClickListener(this, bindingActivityMainLayout.includedContentMainListView.recyclerView, this))
+        bindingActivityMainLayout.includedContentMainListView.recyclerView.adapter = flickrRecyclerViewAdapter
+        setContentView(bindingActivityMainLayout.root)
+        activateToolbar(false, bindingActivityMainLayout.toolbar)
         val url = createUri("https://www.flickr.com/services/feeds/photos_public.gne", "android,oreo", "en-us", true)
 
         //Instance to get the FLICKR Json

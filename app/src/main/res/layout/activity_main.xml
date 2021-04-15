@@ -16,10 +16,13 @@
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
-            app:popupTheme="@style/Theme.FlickrBrowser.PopupOverlay" />
+            app:popupTheme="@style/Theme.FlickrBrowser.PopupOverlay"
+            app:title="FlickBrowser" />
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_main" />
+    <include
+        android:id="@+id/includedContentMainListView"
+        layout="@layout/content_main" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
