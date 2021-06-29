@@ -16,7 +16,7 @@ open class BaseActivity : AppCompatActivity( ) {
         Log.d(TAG, "activateToolbar")
 
         setSupportActionBar(toolbar)
-        supportActionBar?.setDisplayHomeAsUpEnabled(enableHome)
+        supportActionBar?.setDisplayHomeAsUpEnabled(enableHome) // (true/false) ->Shows the left arrow on the action bar
         Log.d(TAG, "supportActionBar is null? ${supportActionBar?.title}")
     }
 }

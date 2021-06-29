@@ -2,10 +2,7 @@ package com.example.flickrbrowser
 
 import android.os.Bundle
 import android.util.Log
-import android.view.ViewGroup
-import android.widget.Toast
 import com.example.flickrbrowser.databinding.ActivityPhotoDetailsBinding
-import com.example.flickrbrowser.databinding.ContentPhotoDetailsBinding
 import com.squareup.picasso.Picasso
 
 private const val TAG = "PhotoDetailsActivity"
@@ -32,9 +29,14 @@ class PhotoDetailsActivity : BaseActivity() {
         Log.d(TAG, "photo --> $photo")
 
         /*We access to the activity views through its ID*/
-        bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoTitle.text = photo.title
-        bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoTags.text = photo.tags
-        bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoAuthor.text = photo.author
+        //bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoTitle.text = "Title: "+ photo.title
+        //bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoTags.text = "Tags "+photo.tags
+        //bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoAuthor.text = "Author: "+photo.author
+
+        //Show the text gaps from the resource file String.xml calling resources.GetString and its tag name
+        bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoTitle.text = resources.getString(R.string.photo_title_text, photo.title)
+        bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoTags.text = resources.getString(R.string.photo_tags_text, photo.tags)
+        //bindingPhotoDetailsLayoutActivity.includedContentPhotoDetails.photoAuthor.text = resources.getString(R.string.photo_author_text, "my", "red", "car")
 
 
         //Library to download the image and put it on the drawable

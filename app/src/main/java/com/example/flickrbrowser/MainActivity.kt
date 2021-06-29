@@ -27,7 +27,7 @@ class MainActivity : BaseActivity(), GetFlickJsonData.OnDataAvailable, RecyclerI
     override fun onCreate(savedInstanceState: Bundle?) {
         Log.d(TAG, "onCreate called")
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        //setContentView(R.layout.activity_main) unnecessary because on line 38 we already call the same method
 
 
         bindingActivityMainLayout = ActivityMainBinding.inflate(layoutInflater)
