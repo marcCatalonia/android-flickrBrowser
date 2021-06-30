@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.widget.SearchView
+import androidx.preference.PreferenceManager
 
 
 class SearchActivity : BaseActivity() {
@@ -31,11 +32,34 @@ class SearchActivity : BaseActivity() {
         val searchableInfo = searchManager.getSearchableInfo(componentName)
         searchView?.setSearchableInfo(searchableInfo)
 
-        Log.d(TAG, ".onCreateOptionsMenu $componentName")
-        Log.d(TAG, ".onCreateOptionsMenu hint is ${searchView?.queryHint}")
-        Log.d(TAG, ".onCreateOptionsMenu $searchableInfo")
+//        Log.d(TAG, ".onCreateOptionsMenu $componentName")
+//        Log.d(TAG, ".onCreateOptionsMenu hint is ${searchView?.queryHint}")
+//        Log.d(TAG, ".onCreateOptionsMenu $searchableInfo")
 
-        searchView?.isIconified = true
+        searchView?.isIconified = false
+
+        searchView?.setOnQueryTextListener(object: SearchView.OnQueryTextListener{
+            override fun onQueryTextSubmit(query: String?): Boolean {
+                Log.d(TAG, ".onQueryTextSubmit: called")
+
+                val sharedPreferences = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+                sharedPreferences.edit().putString(FLICKR_QUERY, query).apply()
+                searchView?.clearFocus()
+                finish()
+                return true
+
+            }
+
+            override fun onQueryTextChange(newText: String?): Boolean {
+                return true
+            }
+
+        })
+
+        searchView?.setOnCloseListener { //When closes the search bar then the activity is destroyed and comes back to the main
+            finish()
+            false
+        }
         return true
     }
 }

@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.flickrbrowser.databinding.ActivityMainBinding
 import com.example.flickrbrowser.databinding.ContentMainBinding
 import java.lang.Exception
+ import androidx.preference.PreferenceManager
 
  private const val TAG = "MainActivity"
 class MainActivity : BaseActivity(), GetFlickJsonData.OnDataAvailable, RecyclerItemClickListener.OnRecyclerClickListener {
@@ -125,5 +126,26 @@ class MainActivity : BaseActivity(), GetFlickJsonData.OnDataAvailable, RecyclerI
 
     override fun onError(exception: Exception) {
         Log.d(TAG, "onError called with exception: ${exception.message}")
+    }
+
+
+    override fun onResume() {
+        Log.d(TAG, "onResume starts")
+        super.onResume()
+
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(applicationContext)
+        val queryResult = sharedPref.getString(FLICKR_QUERY, "")
+
+        if(queryResult!!.isNotEmpty()){
+            val url = createUri("https://www.flickr.com/services/feeds/photos_public.gne", queryResult, "en-us", true)
+
+            //Instance to get the FLICKR Json
+            val getRawData = GetRawData(this)
+
+//        getRawData.setDownloadCompleteListener(this)
+            getRawData.getJSON(url)
+        }
+
+        Log.d(TAG, ".onResume: ends")
     }
 }
